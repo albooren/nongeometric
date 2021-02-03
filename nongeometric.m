@@ -36,11 +36,21 @@ c = vertcat(st.Centroid);
 P  = houghpeaks(H, 25);
 L = houghlines(BW, T, R, P);
 I = imoverlay(gettedImage, BW, [0.9 0.1 0.1]);
-imshow(I, 'InitialMag',200, 'Border','tight'), hold on
+figure
+imshow(I, 'InitialMag',200, 'Border','tight')
+hold on
 line(c(:,1), c(:,2), 'LineStyle','none', 'Marker','+', 'Color','b')
+degisken=0;
 for k = 1:length(L)
     xy = [L(k).point1; L(k).point2];
-    plot(xy(:,1), xy(:,2), 'g-', 'LineWidth',2);
+    plot(xy(:,1), xy(:,2), 'g-', 'LineWidth',1);
+    d = pdist(xy,'euclidean');
+    if mod(k,2)==1
+        if mod(degisken,2)==0
+            text(L(k).point2(:,1), L(k).point2(:,2), int2str(d), 'FontSize', 18);
+        end
+    end
+    degisken=degisken+1;
 end
 hold off
 
